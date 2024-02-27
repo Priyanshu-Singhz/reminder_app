@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		BD30DD072B8D9F7400CE3875 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD30DD062B8D9F7400CE3875 /* AppDelegate.swift */; };
 		BD30DD092B8D9F7400CE3875 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD30DD082B8D9F7400CE3875 /* SceneDelegate.swift */; };
-		BD30DD0B2B8D9F7400CE3875 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD30DD0A2B8D9F7400CE3875 /* ViewController.swift */; };
-		BD30DD0E2B8D9F7400CE3875 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD30DD0C2B8D9F7400CE3875 /* Main.storyboard */; };
 		BD30DD102B8D9F7600CE3875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD30DD0F2B8D9F7600CE3875 /* Assets.xcassets */; };
 		BD30DD132B8D9F7600CE3875 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD30DD112B8D9F7600CE3875 /* LaunchScreen.storyboard */; };
+		BDCB75DC2B8DC32900B5AC1B /* RemindersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB75DA2B8DC32900B5AC1B /* RemindersListViewController.swift */; };
+		BDCB75E02B8DC3E400B5AC1B /* AddScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB75DE2B8DC3E400B5AC1B /* AddScreenViewController.swift */; };
+		BDCB75E72B8DC51300B5AC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDCB75E62B8DC51300B5AC1B /* Main.storyboard */; };
+		BDCB75EB2B8DDCA600B5AC1B /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB75E92B8DDCA600B5AC1B /* CustomCell.swift */; };
+		BDCB75EC2B8DDCA600B5AC1B /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDCB75EA2B8DDCA600B5AC1B /* CustomCell.xib */; };
+		BDCB75EE2B8DE28100B5AC1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB75ED2B8DE28100B5AC1B /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BD30DD032B8D9F7400CE3875 /* reminder-task-priyanshu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "reminder-task-priyanshu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD30DD062B8D9F7400CE3875 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD30DD082B8D9F7400CE3875 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BD30DD0A2B8D9F7400CE3875 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BD30DD0D2B8D9F7400CE3875 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BD30DD0F2B8D9F7600CE3875 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD30DD122B8D9F7600CE3875 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD30DD142B8D9F7600CE3875 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDCB75DA2B8DC32900B5AC1B /* RemindersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersListViewController.swift; sourceTree = "<group>"; };
+		BDCB75DE2B8DC3E400B5AC1B /* AddScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScreenViewController.swift; sourceTree = "<group>"; };
+		BDCB75E62B8DC51300B5AC1B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../../../.Trash/Main.storyboard; sourceTree = "<group>"; };
+		BDCB75E92B8DDCA600B5AC1B /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		BDCB75EA2B8DDCA600B5AC1B /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		BDCB75ED2B8DE28100B5AC1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +64,59 @@
 		BD30DD052B8D9F7400CE3875 /* reminder-task-priyanshu */ = {
 			isa = PBXGroup;
 			children = (
+				BDCB75EF2B8DE7EB00B5AC1B /* common */,
+				BDCB75D32B8DC20000B5AC1B /* firstScreen */,
+				BDCB75D22B8DC1F300B5AC1B /* remindersListScreen */,
+				BDCB75D12B8DC1CF00B5AC1B /* addScreen */,
 				BD30DD062B8D9F7400CE3875 /* AppDelegate.swift */,
 				BD30DD082B8D9F7400CE3875 /* SceneDelegate.swift */,
-				BD30DD0A2B8D9F7400CE3875 /* ViewController.swift */,
-				BD30DD0C2B8D9F7400CE3875 /* Main.storyboard */,
 				BD30DD0F2B8D9F7600CE3875 /* Assets.xcassets */,
 				BD30DD112B8D9F7600CE3875 /* LaunchScreen.storyboard */,
 				BD30DD142B8D9F7600CE3875 /* Info.plist */,
+				BDCB75E62B8DC51300B5AC1B /* Main.storyboard */,
+				BDCB75ED2B8DE28100B5AC1B /* ViewController.swift */,
 			);
 			path = "reminder-task-priyanshu";
+			sourceTree = "<group>";
+		};
+		BDCB75D12B8DC1CF00B5AC1B /* addScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BDCB75DE2B8DC3E400B5AC1B /* AddScreenViewController.swift */,
+			);
+			path = addScreen;
+			sourceTree = "<group>";
+		};
+		BDCB75D22B8DC1F300B5AC1B /* remindersListScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BDCB75F02B8DE80B00B5AC1B /* customcell */,
+				BDCB75DA2B8DC32900B5AC1B /* RemindersListViewController.swift */,
+			);
+			path = remindersListScreen;
+			sourceTree = "<group>";
+		};
+		BDCB75D32B8DC20000B5AC1B /* firstScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = firstScreen;
+			sourceTree = "<group>";
+		};
+		BDCB75EF2B8DE7EB00B5AC1B /* common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		BDCB75F02B8DE80B00B5AC1B /* customcell */ = {
+			isa = PBXGroup;
+			children = (
+				BDCB75EA2B8DDCA600B5AC1B /* CustomCell.xib */,
+				BDCB75E92B8DDCA600B5AC1B /* CustomCell.swift */,
+			);
+			path = customcell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +179,8 @@
 			files = (
 				BD30DD132B8D9F7600CE3875 /* LaunchScreen.storyboard in Resources */,
 				BD30DD102B8D9F7600CE3875 /* Assets.xcassets in Resources */,
-				BD30DD0E2B8D9F7400CE3875 /* Main.storyboard in Resources */,
+				BDCB75EC2B8DDCA600B5AC1B /* CustomCell.xib in Resources */,
+				BDCB75E72B8DC51300B5AC1B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +191,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD30DD0B2B8D9F7400CE3875 /* ViewController.swift in Sources */,
 				BD30DD072B8D9F7400CE3875 /* AppDelegate.swift in Sources */,
 				BD30DD092B8D9F7400CE3875 /* SceneDelegate.swift in Sources */,
+				BDCB75DC2B8DC32900B5AC1B /* RemindersListViewController.swift in Sources */,
+				BDCB75E02B8DC3E400B5AC1B /* AddScreenViewController.swift in Sources */,
+				BDCB75EE2B8DE28100B5AC1B /* ViewController.swift in Sources */,
+				BDCB75EB2B8DDCA600B5AC1B /* CustomCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BD30DD0C2B8D9F7400CE3875 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD30DD0D2B8D9F7400CE3875 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BD30DD112B8D9F7600CE3875 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
