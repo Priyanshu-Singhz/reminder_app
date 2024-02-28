@@ -33,9 +33,9 @@
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="wnY-hc-xcV" secondAttribute="trailing" constant="10" id="ODT-gt-2Ht"/>
+                                    <constraint firstAttribute="trailing" secondItem="wnY-hc-xcV" secondAttribute="trailing" constant="10" id="CvL-NQ-iEc"/>
                                     <constraint firstItem="SvC-WY-nLT" firstAttribute="leading" secondItem="CpZ-20-N8P" secondAttribute="leading" constant="10" id="ZIY-eG-00K"/>
-                                    <constraint firstAttribute="bottom" secondItem="wnY-hc-xcV" secondAttribute="bottom" id="vQl-X0-w4f"/>
+                                    <constraint firstAttribute="bottom" secondItem="wnY-hc-xcV" secondAttribute="bottom" id="psC-Gk-ckg"/>
                                     <constraint firstAttribute="bottom" secondItem="SvC-WY-nLT" secondAttribute="bottom" constant="5" id="y23-C6-K70"/>
                                 </constraints>
                             </view>
@@ -80,7 +80,7 @@
                         </constraints>
                     </stackView>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="sSs-0H-I5s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0Sw-xd-7aQ"/>
                     <constraint firstItem="sSs-0H-I5s" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="jKT-Nc-wng"/>
@@ -89,6 +89,12 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="dateTimeLabel" destination="SvC-WY-nLT" id="dZq-Vv-f1r"/>
+                <outlet property="imageBtn" destination="wnY-hc-xcV" id="FSL-51-91t"/>
+                <outlet property="titleLabel" destination="wbi-Yq-Azu" id="pAn-Rx-4Wr"/>
+            </connections>
             <point key="canvasLocation" x="511.4503816793893" y="50"/>
         </tableViewCell>
     </objects>
