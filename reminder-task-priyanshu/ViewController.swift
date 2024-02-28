@@ -4,9 +4,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var reminderTable: UITableView!
     
+    
+    
+    
+    
+    
+    
+    @IBOutlet weak var tablView: UIView!
+    
+    @IBOutlet weak var firstScreenView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
+//        if(ReminderManager.shared.reminders.isEmpty){
+//              tablView.isHidden = false
+//              firstScreenView.isHidden = true
+//            } else {
+//              tablView.isHidden = true
+//              firstScreenView.isHidden = false
+//            }
+        firstScreenView.isHidden = true
+        tablView.isHidden = false
         reminderTable.backgroundColor = .clear
         
         reminderTable.delegate = self
@@ -16,7 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func addReminderButton(_ sender: UIButton) {
         // This method doesn't seem to do anything meaningful. If it's supposed to navigate to the add screen, you need to implement it.
-        navigationController?.popViewController(animated: true)
+        performSegue(withIdentifier: "addScrn", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,24 +63,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func didPressOptionButton(in cell: CustomCell) {
         let alertController = UIAlertController(title: "Options", message: "Choose an action", preferredStyle: .actionSheet)
-        
         let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
-            // Handle edit action
-            print("Edit action tapped")
+    //      Handle edit action
+         self.handleEdit(cell: cell)
         }
         alertController.addAction(editAction)
-        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            // Handle delete action
-            print("Delete action tapped")
+         // Handle delete action
+         self.handleDelete(cell: cell)
         }
         alertController.addAction(deleteAction)
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
+        // Present the alert controller
+        self.present(alertController, animated: true, completion: nil)
+      }
+
+    private func handleEdit(cell : CustomCell) {
         
-        // Present the alert controller from the view controller
-        present(alertController, animated: true, completion: nil)
+        // Retrieve the selected reminder
+        performSegue(withIdentifier: "addScrn", sender: nil)
+        
+        // Perform navigation to the AddRemaindersViewController and pass the selected reminder
+        
+    }
+
+
+
+    private func handleDelete(cell: CustomCell) {
+        guard let indexPath = reminderTable.indexPath(for: cell) else { return }
+        // Perform deletion logic
+        ReminderManager.shared.reminders.remove(at: indexPath.row)
+        reminderTable.deleteRows(at: [indexPath], with: .automatic)
     }
 }
 
@@ -69,6 +102,7 @@ extension ViewController: AddScreenDelegate {
     func didCreateReminder(_ reminder: Reminder) {
         // The reminders are managed by the ReminderManager, so no need to append here
         // Reload the table view to reflect the changes
+        
         DispatchQueue.main.async {
             self.reminderTable.reloadData()
         }

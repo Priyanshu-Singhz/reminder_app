@@ -1,3 +1,4 @@
+
 import UIKit
 protocol AddScreenDelegate: AnyObject {
     func didCreateReminder(_ reminder: Reminder)
@@ -8,6 +9,8 @@ class AddScreenViewController: UIViewController {
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     let dateTimePicker = UIDatePicker()
+
+    var editingReminder: Reminder?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +30,25 @@ class AddScreenViewController: UIViewController {
         dateTextField.inputAccessoryView = toolbar
     }
 
-    @objc func doneDateButtonPressed() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
-        dateTextField.text = dateFormatter.string(from: dateTimePicker.date)
-        dateTextField.textColor = .blue
-        dateTextField.resignFirstResponder()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let reminder = editingReminder {
+            titleTextField.text = reminder.title
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            dateTextField.text = dateFormatter.string(from: reminder.dateTime)
+        }
     }
+
+        @objc func doneDateButtonPressed() {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            dateTextField.text = dateFormatter.string(from: dateTimePicker.date)
+            dateTextField.textColor = .blue
+            dateTextField.resignFirstResponder()
+        }
 
     @IBAction func createReminderButton(_ sender: UIButton) {
         guard let title = titleTextField.text, !title.isEmpty else {
@@ -41,15 +56,20 @@ class AddScreenViewController: UIViewController {
             return
         }
 
-        let reminder = Reminder(title: title, dateTime: dateTimePicker.date)
-        
-        // Add the reminder to the shared reminders array
-        ReminderManager.shared.reminders.append(reminder)
+        let reminder = editingReminder ?? Reminder(title: "", dateTime: Date())
+
+        reminder.title = title
+        reminder.dateTime = dateTimePicker.date
+
+        if editingReminder == nil {
+            // Add the reminder to the shared reminders array
+            ReminderManager.shared.reminders.append(reminder)
+        }
         
         // Notify the delegate
         delegate?.didCreateReminder(reminder)
         
-        performSegue(withIdentifier: "reminderList", sender: nil)
+        performSegue(withIdentifier: "reverse", sender: nil)
     }
 
     @IBAction func cancelButtonPressed(_ sender: UIButton) {

@@ -1,15 +1,11 @@
-//
-//  Remainder.swift
-//  reminder-task-priyanshu
-//
-//  Created by Zignuts Technolab on 28/02/24.
-//
-
-
 import Foundation
 
-struct Reminder {
-    let title: String
-    let dateTime: Date
-}
+class Reminder {
+    var title: String
+    var dateTime: Date
 
+    init(title: String, dateTime: Date) {
+        self.title = title
+        self.dateTime = dateTime
+    }
+}
