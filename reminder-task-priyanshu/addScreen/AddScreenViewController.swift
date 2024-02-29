@@ -1,4 +1,3 @@
-
 import UIKit
 protocol AddScreenDelegate: AnyObject {
     func didCreateReminder(_ reminder: Reminder)
@@ -6,76 +5,116 @@ protocol AddScreenDelegate: AnyObject {
 class AddScreenViewController: UIViewController {
     weak var delegate: AddScreenDelegate?
     
+    var reminderIndex: Int?
+    
+    
+
+    
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     let dateTimePicker = UIDatePicker()
-
+    
     var editingReminder: Reminder?
-
+    
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeView()
+       
         self.navigationItem.hidesBackButton = true
-
+       
+           
+        
+        
         dateTimePicker.datePickerMode = .dateAndTime
         dateTimePicker.preferredDatePickerStyle = .inline
         dateTextField.inputView = dateTimePicker
         dateTimePicker.frame = CGRect(x: 10, y: 0, width: 0, height: 500)
         dateTimePicker.backgroundColor = .white
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
+        dateTimePicker.tintColor = UIColor(cgColor: CGColor(red: CGFloat(108)/255, green: CGFloat(194)/255, blue: CGFloat(181)/255, alpha: 1))
+      
+        dateTimePicker.minimumDate = NSDate() as Date
+        
         
         let doneDateButton = UIBarButtonItem(title: "Done (Date)", style: .plain, target: self, action: #selector(doneDateButtonPressed))
-        toolbar.setItems([doneDateButton], animated: true)
+        
+        
+        if let reminder = editingReminder {
+            // Fill the text fields with reminder data
+            titleTextField.text = reminder.title
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+            dateTextField.text = dateFormatter.string(from: reminder.dateTime)
+        }
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
         dateTextField.inputAccessoryView = toolbar
+        toolbar.setItems([doneDateButton], animated: true)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         if let reminder = editingReminder {
             titleTextField.text = reminder.title
-
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
             dateTextField.text = dateFormatter.string(from: reminder.dateTime)
         }
     }
-
-        @objc func doneDateButtonPressed() {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
-            dateTextField.text = dateFormatter.string(from: dateTimePicker.date)
-            dateTextField.textColor = .blue
-            dateTextField.resignFirstResponder()
-        }
-
+    
+    @objc func doneDateButtonPressed() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateTextField.text = dateFormatter.string(from: dateTimePicker.date)
+        dateTextField.textColor = .blue
+        dateTextField.resignFirstResponder()
+    }
+    
+    
+    
     @IBAction func createReminderButton(_ sender: UIButton) {
-        guard let title = titleTextField.text, !title.isEmpty else {
+        guard let title = titleTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty else {
             // Show an error message or handle empty title
             return
         }
-
-        let reminder = editingReminder ?? Reminder(title: "", dateTime: Date())
-
+        
+        // Create a new Reminder instance or update the existing one
+        var reminder = editingReminder ?? Reminder(title: "", dateTime: Date())
         reminder.title = title
         reminder.dateTime = dateTimePicker.date
-
-        if editingReminder == nil {
-            // Add the reminder to the shared reminders array
-            ReminderManager.shared.reminders.append(reminder)
+        
+        // Update the reminders array at the specified index
+        if let index = reminderIndex {
+            reminders[index] = reminder
+        } else {
+            // If no index is provided, append the new reminder
+            reminders.append(reminder)
         }
+        
+        // Save the updated reminders array to UserDefaults
+        USerDataStoreOnLocal.defaults.setdataInDefaults()
         
         // Notify the delegate
         delegate?.didCreateReminder(reminder)
         
+        // Perform segue
         performSegue(withIdentifier: "reverse", sender: nil)
     }
 
+    
+    
+    
+    
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-
+    
     func initializeView() {
         navigationItem.hidesBackButton = true
         titleTextField.borderStyle = .none
@@ -86,7 +125,7 @@ class AddScreenViewController: UIViewController {
         titleTextField.attributedPlaceholder = NSAttributedString(string: "Where to ?", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         titleTextField.leftView = paddingView
         titleTextField.leftViewMode = .always
-
+        
         dateTextField.leftView = paddingView
         dateTextField.leftViewMode = .always
         dateTextField.borderStyle = .none

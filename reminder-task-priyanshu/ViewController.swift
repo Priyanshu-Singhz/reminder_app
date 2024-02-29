@@ -6,6 +6,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     
+    @IBOutlet weak var txtField: UILabel!
     
     
     
@@ -17,15 +18,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
-//        if(ReminderManager.shared.reminders.isEmpty){
-//              tablView.isHidden = false
-//              firstScreenView.isHidden = true
-//            } else {
-//              tablView.isHidden = true
-//              firstScreenView.isHidden = false
-//            }
-        firstScreenView.isHidden = true
-        tablView.isHidden = false
+        
+        reminders =  USerDataStoreOnLocal.defaults.getDataFromDefaults()
+        if(reminders.isEmpty){
+              tablView.isHidden = true
+              firstScreenView.isHidden = false
+            } else {
+              tablView.isHidden = false
+              firstScreenView.isHidden = true
+            }
+      
+        txtField.layer.cornerRadius = 10
+        
+        txtField.layer.masksToBounds = true
         reminderTable.backgroundColor = .clear
         
         reminderTable.delegate = self
@@ -39,14 +44,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ReminderManager.shared.reminders.count
+        return reminders.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath) as! CustomCell
         
         // Retrieve the reminder for the current row from the shared reminders array
-        let reminder = ReminderManager.shared.reminders[indexPath.row]
+        let reminder = reminders[indexPath.row]
         
         // Configure the cell with the reminder
         cell.configure(with: reminder)
@@ -56,7 +61,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
-    
+   
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75 // Adjust this value to your desired height
     }
@@ -71,6 +76,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
          // Handle delete action
          self.handleDelete(cell: cell)
+            
         }
         alertController.addAction(deleteAction)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -80,12 +86,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       }
 
     private func handleEdit(cell : CustomCell) {
+        guard let indexPath = reminderTable.indexPath(for: cell) else { return }
+        let selectedReminder = reminders[indexPath.row]
+        performSegue(withIdentifier: "addScrn", sender: (selectedReminder, indexPath.row))
+    }
+    func viewWillAppearCustom(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if(reminders.isEmpty){
+              tablView.isHidden = true
+              firstScreenView.isHidden = false
+            } else {
+              tablView.isHidden = false
+              firstScreenView.isHidden = true
+            }
+
         
-        // Retrieve the selected reminder
-        performSegue(withIdentifier: "addScrn", sender: nil)
-        
-        // Perform navigation to the AddRemaindersViewController and pass the selected reminder
-        
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "addScrn" {
+            if let addScreenVC = segue.destination as? AddScreenViewController,
+               let data = sender as? (Reminder, Int) {
+                addScreenVC.editingReminder = data.0
+                addScreenVC.reminderIndex = data.1
+                addScreenVC.delegate = self
+            }
+        }
     }
 
 
@@ -93,9 +118,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func handleDelete(cell: CustomCell) {
         guard let indexPath = reminderTable.indexPath(for: cell) else { return }
         // Perform deletion logic
-        ReminderManager.shared.reminders.remove(at: indexPath.row)
+        reminders.remove(at: indexPath.row)
         reminderTable.deleteRows(at: [indexPath], with: .automatic)
+        viewWillAppearCustom(true)
+        USerDataStoreOnLocal.defaults.setdataInDefaults()
+        
+        
     }
+    
 }
 
 extension ViewController: AddScreenDelegate {
