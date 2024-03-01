@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 protocol AddScreenDelegate: AnyObject {
     func didCreateReminder(_ reminder: Reminder)
 }
@@ -32,7 +33,7 @@ class AddScreenViewController: UIViewController {
         dateTimePicker.datePickerMode = .dateAndTime
         dateTimePicker.preferredDatePickerStyle = .inline
         dateTextField.inputView = dateTimePicker
-        dateTimePicker.frame = CGRect(x: 10, y: 0, width: 0, height: 500)
+        dateTimePicker.frame = CGRect(x: 10, y: 0, width: 0, height: 480)
         dateTimePicker.backgroundColor = .white
         dateTimePicker.tintColor = UIColor(cgColor: CGColor(red: CGFloat(108)/255, green: CGFloat(194)/255, blue: CGFloat(181)/255, alpha: 1))
       
@@ -97,8 +98,27 @@ class AddScreenViewController: UIViewController {
             reminders.append(reminder)
         }
         
+        //yeh bas mene notifications ke liye banaya h
         // Save the updated reminders array to UserDefaults
         USerDataStoreOnLocal.defaults.setdataInDefaults()
+        let content = UNMutableNotificationContent()
+            content.title = "Reminder: \(title)"
+        content.body = titleTextField.text!
+            content.sound = UNNotificationSound.default
+            
+            let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: reminder.dateTime)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "reminder_\(UUID().uuidString)", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let error = error {
+                    print("Failed to schedule notification: \(error.localizedDescription)")
+                } else {
+                    print("Notification scheduled successfully")
+                }
+            }
+        //yaha tak notifications ka part
         
         // Notify the delegate
         delegate?.didCreateReminder(reminder)

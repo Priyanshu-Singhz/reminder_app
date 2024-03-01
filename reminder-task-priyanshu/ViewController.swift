@@ -1,5 +1,6 @@
 import UIKit
 
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CustomCellDelegate {
     
     @IBOutlet weak var reminderTable: UITableView!
@@ -113,7 +114,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 
-
+   
 
     private func handleDelete(cell: CustomCell) {
         guard let indexPath = reminderTable.indexPath(for: cell) else { return }
@@ -122,6 +123,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         reminderTable.deleteRows(at: [indexPath], with: .automatic)
         viewWillAppearCustom(true)
         USerDataStoreOnLocal.defaults.setdataInDefaults()
+  
         
         
     }
